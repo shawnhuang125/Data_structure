@@ -194,9 +194,9 @@ int main(){
 - 結果
 - ![image](https://github.com/user-attachments/assets/abc83578-7dbf-480e-af5e-09d966335ec2)
 
-### 題目 3: 二維陣列自動填入並輸出
+### 題目 3 3*3魔術矩陣
 - 描述：
-- 請使用C語言宣告一陣列 int A[9][9], 並自動填入9×9魔術方陣的值後印出
+- 請使用C語言宣告一陣列 int A[3][3], 並自動填入3×3魔術方陣的值後印出
 ```
 #include<stdlib.h>
 #include<stdio.h>
@@ -222,4 +222,10 @@ int main(){
 - 結果
 - ![image](https://github.com/user-attachments/assets/d8fdf9d4-bbc5-4c9f-a678-330c13a7dd72)
 
-
+### 題目 4 9*9魔術矩陣
+- 描述：
+- 請使用C語言宣告一陣列 int A[9][9], 並自動填入3×3魔術方陣的值後印出
+```
+```
+- 結果
+- 
