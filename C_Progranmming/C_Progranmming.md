@@ -521,35 +521,13 @@ please insert a formula:(3+2)*(5-3)
 The formula contains the following characters:
 '(' operator precedence with precedence:3
 '3' is number
-please insert a formula:(3+2)*(5-3)
-The formula contains the following characters:
-'(' operator precedence with precedence:3
-'3' is number
-The formula contains the following characters:
-'(' operator precedence with precedence:3
-'3' is number
-'+' operator precedence with precedence:1
-'2' is number
-'3' is number
 '+' operator precedence with precedence:1
 '2' is number
 ')' operator precedence with precedence:3
-'+' operator precedence with precedence:1
-'2' is number
-')' operator precedence with precedence:3
-'2' is number
-')' operator precedence with precedence:3
 '*' operator precedence with precedence:2
-')' operator precedence with precedence:3
-'*' operator precedence with precedence:2
-'*' operator precedence with precedence:2
-'(' operator precedence with precedence:3
 '(' operator precedence with precedence:3
 '5' is number
-'5' is number
 '-' operator precedence with precedence:1
-'-' operator precedence with precedence:1
-'3' is number
 '3' is number
 ')' operator precedence with precedence:3
 ```
