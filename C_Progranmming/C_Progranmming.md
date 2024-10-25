@@ -41,12 +41,12 @@
 ## 方陣練習  [連結]()
 #### 回家作業(陣列練習)
 #### 魔術方陣
-#### Call By Address
 
 ## Stack堆疊  [連結]()
 > 一種陣列
 
 > First In Last Out
+#### Call By Address
 #### Stack堆疊----Push and Pop功能(為了實現First In Last Out)
 
 #### infix to prefix----輸入並切割,判斷是否為運算子
