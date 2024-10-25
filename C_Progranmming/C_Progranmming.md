@@ -409,10 +409,67 @@ poped 5 out of stack
 exiting...
 Current stack status: 2, 3, 4
 ```
-### infix to prefix
+### infix to prefix-輸入並切割,判斷是否為運算子
 - 程式碼:
 ```
+#include<stdlib.h>
+#include<stdio.h>
+#include<ctype.h>
+int main(){
+    char formula[100];  //初始化算式容器
+
+    printf("please insert a formula:");
+    scanf("%s",formula);        //先輸入算式
+     printf("The formula contains the following characters:\n");    //確認切割無誤
+    for(int i=0;formula[i] !='\0';i++){
+        //切割
+        int charac = formula[i];
+        //printf("%c,\t",formula[i]);    
+        if(isdigit(charac)){
+            //判斷是否為數字
+            printf("'%c' is number\n",charac);
+        }else if(formula[i]){
+            //判斷是否為運算子
+            printf("'%c' is a operator\n",charac);
+        }else{
+            //其他未知的字元
+            printf("'%c' is unknown chracter\n",charac);
+        }
+
+
+    }
+
+
+    
+    //判斷是不是數字
+    //判斷operator的優先層級
+    //輸出每個字元的優先層及
+    
+    return 0;
+}
 ```
 - 輸出範例：
 ```
+please insert a formula:(3+2)*(5-3)
+The formula contains the following characters:
+'(' is a operator
+'3' is number
+'+' is a operator
+'2' is number
+')' is a operator
+'*' is a operator
+'(' is a operator
+'5' is number
+'-' is a operator
+'3' is number
+')' is a operator
+```
+### infix to prefix-判斷優先層級
+- 程式碼:
+```
+
+```
+- 輸出範例：
+```
+
 ```
