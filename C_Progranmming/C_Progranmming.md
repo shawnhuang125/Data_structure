@@ -326,8 +326,9 @@ int main(){
 ```
 總和: 24
 ```
-## stack堆疊
-### push and pull
+## Stack堆疊
+> First In Last Out
+### Stack堆疊-push and pull功能(為了實現First In Last Out)
 - 程式碼:
 ```
 #include<stdlib.h>
