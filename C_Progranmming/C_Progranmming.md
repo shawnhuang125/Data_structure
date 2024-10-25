@@ -326,8 +326,8 @@ int main(){
 ```
 總和: 24
 ```
-- stack堆疊
-- push and pull
+## stack堆疊
+### push and pull
 - 程式碼:
 ```
 #include<stdlib.h>
@@ -409,7 +409,7 @@ poped 5 out of stack
 exiting...
 Current stack status: 2, 3, 4
 ```
-- infix to prefix
+### infix to prefix
 - 程式碼:
 ```
 ```
