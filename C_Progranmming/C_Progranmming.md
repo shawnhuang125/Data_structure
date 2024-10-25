@@ -468,9 +468,88 @@ The formula contains the following characters:
 ### infix to prefix-判斷優先層級
 - 程式碼:
 ```
+#include<stdlib.h>
+#include<stdio.h>
+#include<ctype.h>
+int operator_precedence(char oper){
+    switch(oper){
+        case '(':case ')':
+            return 3;
+        case '*':case '/':
+            return 2;
+        case '+':case '-':
+            return 1;
+        default:
+            printf("operator precedence error: unknown operator '%c'\n", oper);
+            return 0;
 
+    }
+
+}
+int main(){
+    char formula[100];  //初始化算式容器
+
+    printf("please insert a formula:");
+    scanf("%s",formula);        //先輸入算式
+     printf("The formula contains the following characters:\n");    //確認切割無誤
+    for(int i=0;formula[i] !='\0';i++){
+        //切割
+        int charac = formula[i];
+        //printf("%c,\t",formula[i]);    
+        if(isdigit(charac)){
+            //判斷是不是數字
+            printf("'%c' is number\n",charac);
+        }else if(charac =='+' || charac =='-' || charac =='*' || charac =='/' || charac =='(' || charac ==')' ){
+
+            int precedence = operator_precedence(charac);   //判斷operator的優先層級,並回傳層級的值
+            printf("'%c' operator precedence with precedence:%d\n",charac,precedence);
+        }else{
+            //其他未知的字元
+            printf("'%c' is unknown chracter\n",charac);
+        }
+
+
+    }
+
+    
+    return 0;
+}
 ```
 - 輸出範例：
 ```
-
+please insert a formula:(3+2)*(5-3)
+The formula contains the following characters:
+'(' operator precedence with precedence:3
+'3' is number
+please insert a formula:(3+2)*(5-3)
+The formula contains the following characters:
+'(' operator precedence with precedence:3
+'3' is number
+The formula contains the following characters:
+'(' operator precedence with precedence:3
+'3' is number
+'+' operator precedence with precedence:1
+'2' is number
+'3' is number
+'+' operator precedence with precedence:1
+'2' is number
+')' operator precedence with precedence:3
+'+' operator precedence with precedence:1
+'2' is number
+')' operator precedence with precedence:3
+'2' is number
+')' operator precedence with precedence:3
+'*' operator precedence with precedence:2
+')' operator precedence with precedence:3
+'*' operator precedence with precedence:2
+'*' operator precedence with precedence:2
+'(' operator precedence with precedence:3
+'(' operator precedence with precedence:3
+'5' is number
+'5' is number
+'-' operator precedence with precedence:1
+'-' operator precedence with precedence:1
+'3' is number
+'3' is number
+')' operator precedence with precedence:3
 ```
