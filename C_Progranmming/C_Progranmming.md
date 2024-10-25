@@ -502,7 +502,7 @@ int main(){
         }else if(charac =='+' || charac =='-' || charac =='*' || charac =='/' || charac =='(' || charac ==')' ){
 
             int precedence = operator_precedence(charac);   //判斷operator的優先層級,並回傳層級的值
-            printf("'%c' operator precedence with precedence:%d\n",charac,precedence);
+            printf("'%c' operator with precedence:%d\n",charac,precedence);
         }else{
             //其他未知的字元
             printf("'%c' is unknown chracter\n",charac);
@@ -519,15 +519,15 @@ int main(){
 ```
 please insert a formula:(3+2)*(5-3)
 The formula contains the following characters:
-'(' operator precedence with precedence:3
+'(' operator with precedence:3
 '3' is number
-'+' operator precedence with precedence:1
+'+' operator with precedence:1
 '2' is number
-')' operator precedence with precedence:3
-'*' operator precedence with precedence:2
-'(' operator precedence with precedence:3
+')' operator with precedence:3
+'*' operator with precedence:2
+'(' operator with precedence:3
 '5' is number
-'-' operator precedence with precedence:1
+'-' operator with precedence:1
 '3' is number
-')' operator precedence with precedence:3
+')' operator with precedence:3
 ```
