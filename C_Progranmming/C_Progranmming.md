@@ -1,16 +1,39 @@
 # 基礎演算法實作
-## 基礎語法  [連結]()
-#### 變數型態
-#### 輸入輸出
-#### if判斷式
-#### 布林值
-#### for迴圈
-#### while迴圈
-#### switch迴圈
-#### 陣列
-#### 指標
-#### 標頭檔
-#### 函式定義
+#### 標頭檔Header Files
+
+#### 變數型態Data Types
+
+#### 輸入輸出Input and Output
+
+#### if 判斷式if Statement
+
+#### 位運算Bitwise Operations
+
+#### 布林值Boolean Values
+
+#### for 迴圈for Loop
+
+#### 遞迴Recursion
+
+#### while 迴圈while Loop
+
+#### switch 迴圈switch Statement
+
+#### 陣列Array
+
+#### 結構體Structures
+
+#### 函數指標Function Pointers
+
+#### 函式定義Function Definition
+
+#### 宏和預處理器指令Macros and Preprocessor Directives
+
+#### 動態記憶體分配Dynamic Memory Allocation
+
+#### 錯誤處理Error Handling
+
+#### 文件操作File I/O
 ## 排序法  [連結]()
 #### 插入排序法
 #### 氣泡排序法
