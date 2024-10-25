@@ -326,3 +326,93 @@ int main(){
 ```
 總和: 24
 ```
+- stack堆疊
+- push and pull
+- 程式碼:
+```
+#include<stdlib.h>
+#include<stdio.h>
+#define max 100
+int push(int stack[],int *top,int value){
+    if(*top==max-1){
+        printf("the stack is full");
+        return -1;
+    }
+    (*top)++;
+    stack[*top] = value;
+    printf("pushed %d to the stack\n",value);
+    return 0;
+}
+int pop(int stack[],int *top){
+    if(*top==-1){
+        printf("the stack is empty\n");   //如果stack已經見底,輸出stack已經空了
+        return -1;
+    }
+    int value;
+    value = stack[*top];
+    (*top)--;
+    printf("poped %d out of stack\n",value);
+    return 0;
+}
+int main(){
+    int array[max],insert_value; //定義空陣列
+    int x,top = -1;   //初始位址為-1
+    while(1){
+        printf("1: pull,2: pop,3:exit,please choose a num:");
+        scanf("%d",&x);
+        if(x==1){
+            //push
+            printf("please insert a num to stack:");
+            scanf("%d",&insert_value);
+            push(array,&top,insert_value);
+        }else if(x==2){
+            //pop
+            pop(array,&top);
+        }else if(x==3){
+            printf("exiting...\n");
+            break;
+        }
+    }
+    // 顯示堆疊狀態
+    if (top == -1) {
+        printf("The stack is empty.\n");
+    } else {
+        printf("Current stack status: ");
+        for (int i = 0; i <= top; i++) {  // 只顯示堆疊中有效的元素
+            printf("%d", array[i]);
+            if (i < top) {  // 避免最後一個元素後加逗號
+                printf(", ");
+            }
+        }
+        printf("\n");
+    }
+    return 0;
+}
+```
+- 輸出範例：
+```
+1: pull,2: pop,3:exit,please choose a num:1
+please insert a num to stack:2
+pushed 2 to the stack
+1: pull,2: pop,3:exit,please choose a num:1
+please insert a num to stack:3
+pushed 3 to the stack
+1: pull,2: pop,3:exit,please choose a num:1
+please insert a num to stack:4
+pushed 4 to the stack
+1: pull,2: pop,3:exit,please choose a num:1
+please insert a num to stack:5
+pushed 5 to the stack
+1: pull,2: pop,3:exit,please choose a num:2
+poped 5 out of stack
+1: pull,2: pop,3:exit,please choose a num:3
+exiting...
+Current stack status: 2, 3, 4
+```
+- infix to prefix
+- 程式碼:
+```
+```
+- 輸出範例：
+```
+```
