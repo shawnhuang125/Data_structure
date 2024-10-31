@@ -315,34 +315,6 @@ infix formula:(9-7)*(5-2)
 prefix formula:*-97-52
 ```
 - 重點
-```
- if (charac == ')') {
-        // 如果遇到右括號，將其壓入堆疊
-        stack[++(*top)] = charac;
-    } else if (charac == '(') {
-        // 遇到左括號，彈出堆疊中的運算符直到遇到右括號,並沒有輸入左括號
-        //這邊是處理括號內已經壓入後的運算符,一直彈出運算符直到')'
-        while (*top != -1 && stack[*top] != ')') {
-            flutter[0] = stack[(*top)--];
-            flutter[1] = '\0';
-            strcat(output, flutter);
-        }
-        // 將')'的位址減一,實質上stack內的')'還在,反正只會輸出output陣列,所以沒關係
-        if (*top != -1) {
-            (*top)--;
-        }
-    } else if (precedence(charac) != 0) {
-        //處理所有要壓入的運算符
-        // 當遇到有效運算符時，根據優先順序處理
-        while (*top != -1 && precedence(stack[*top]) >= precedence(charac)) {
-            flutter[0] = stack[(*top)--];
-            flutter[1] = '\0';
-            strcat(output, flutter);
-        }
-        // 將當前運算符壓入堆疊
-        stack[++(*top)] = charac;
-    }
-```
 - 如果遇到右括號，將其壓入堆疊
 ```
 if (charac == ')') {
