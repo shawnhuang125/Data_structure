@@ -203,3 +203,181 @@ The formula contains the following characters:
 '3' is number
 ')' operator with precedence:3
 ```
+#### 20241031 | infix to prefix
+```
+#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+int precedence(char cha){
+    switch (cha){
+    
+    case '*': case '/':
+        return 2;
+    
+    case '+': case '-':
+        return 1;
+    //deflaut很重要,因為當檢查到除了'+','-','*','/'以外的運算符,如果沒有0的話,會隨機產生一個值,從而導致錯誤判斷
+    default:
+        return 0;
+    }
+}
+void infix_to_prefix(char stack[], char charac, int *top, char output[]) {
+    char flutter[2];
+    
+    if (charac == ')') {
+        // 如果遇到右括號，將其壓入堆疊
+        stack[++(*top)] = charac;
+    } else if (charac == '(') {
+        // 遇到左括號，彈出堆疊中的運算符直到遇到右括號
+        //這邊是處理括號內已經壓入後的運算符,一直彈出運算符直到')'
+        while (*top != -1 && stack[*top] != ')') {
+            flutter[0] = stack[(*top)--];
+            flutter[1] = '\0';
+            strcat(output, flutter);
+        }
+        // 將')'的位址減一,實質上stack內的')'還在,反正只會輸出output陣列,所以沒關係
+        if (*top != -1) {
+            (*top)--;
+        }
+    } else if (precedence(charac) != 0) {
+        //處理所有要壓入的運算符
+        // 當遇到有效運算符時，根據優先順序處理
+        while (*top != -1 && precedence(stack[*top]) >= precedence(charac)) {
+            flutter[0] = stack[(*top)--];
+            flutter[1] = '\0';
+            strcat(output, flutter);
+        }
+        // 將當前運算符壓入堆疊
+        stack[++(*top)] = charac;
+    }
+}
+void reverse(char *str){
+    int len = strlen(str);
+    for(int i=0;i<len/2;i++){
+        //只跑到一半而已
+        //將第一格字元儲存
+        char temp = str[i];
+        //例如1跟6-1-1,下一次2跟6-1-2,下一次3跟6-1-3
+        str[i] = str[len-1-i];
+        str[len-1-i] = temp;
+    }
+    
+}
+int main(){
+    char formula[100];  //輸入的formula
+    char stack[100];    //壓入運算符用的stack
+    char flutter[2];    //輸出到output陣列用的緩衝區
+    char output[100]="";   //輸出prefix用的陣列
+    int top = -1;   //指標初始化
+    //輸入infix formula
+    printf("infix formula:");
+    scanf("%s",&formula);
+    // 開始由右到左切割,並處理優先順序及判斷
+    for(int i=strlen(formula)-1;i>=0;i--){
+        //由右到左切割
+        char charac = formula[i];
+
+        if(isdigit(formula[i])){
+            //推出到output
+            flutter[0] = charac;
+            flutter[1] = '\0';
+            strcat(output,flutter);
+        }else{
+            //開始判斷
+            infix_to_prefix(stack,charac,&top,output);
+        }
+
+
+
+
+    }
+
+        //將堆疊清空
+    while(top!=-1){
+        //推出到output
+        flutter[0] = stack[top--];
+        flutter[1] = '\0';
+        strcat(output,flutter);
+    }
+    //翻轉output成為prefix formula
+    reverse(output);
+    
+    
+    printf("prefix formula:");
+    printf("%s\n",output);
+    return 0;
+}
+```
+- 輸出
+```
+infix formula:(9-7)*(5-2)
+prefix formula:*-97-52
+```
+- 重點
+```
+ if (charac == ')') {
+        // 如果遇到右括號，將其壓入堆疊
+        stack[++(*top)] = charac;
+    } else if (charac == '(') {
+        // 遇到左括號，彈出堆疊中的運算符直到遇到右括號,並沒有輸入左括號
+        //這邊是處理括號內已經壓入後的運算符,一直彈出運算符直到')'
+        while (*top != -1 && stack[*top] != ')') {
+            flutter[0] = stack[(*top)--];
+            flutter[1] = '\0';
+            strcat(output, flutter);
+        }
+        // 將')'的位址減一,實質上stack內的')'還在,反正只會輸出output陣列,所以沒關係
+        if (*top != -1) {
+            (*top)--;
+        }
+    } else if (precedence(charac) != 0) {
+        //處理所有要壓入的運算符
+        // 當遇到有效運算符時，根據優先順序處理
+        while (*top != -1 && precedence(stack[*top]) >= precedence(charac)) {
+            flutter[0] = stack[(*top)--];
+            flutter[1] = '\0';
+            strcat(output, flutter);
+        }
+        // 將當前運算符壓入堆疊
+        stack[++(*top)] = charac;
+    }
+```
+- 如果遇到右括號，將其壓入堆疊
+```
+if (charac == ')') {
+        stack[++(*top)] = charac;
+    }
+```
+- 如果遇到左括號，彈出堆疊中的運算符直到遇到右括號
+```
+ else if (charac == '(') {
+        while (*top != -1 && stack[*top] != ')') {
+            flutter[0] = stack[(*top)--];
+            flutter[1] = '\0';
+            strcat(output, flutter);
+        }
+        if (*top != -1) {
+            (*top)--;
+        }
+    }
+```
+- 這邊是處理括號內已經壓入後的運算符,一直彈出運算符直到')'
+```
+while (*top != -1 && stack[*top] != ')') {
+            flutter[0] = stack[(*top)--];
+            flutter[1] = '\0';
+            strcat(output, flutter);
+        }
+```
+- 處理所有要壓入的運算符,當遇到有效運算符時，根據優先順序處理
+```
+else if (precedence(charac) != 0) {
+        while (*top != -1 && precedence(stack[*top]) >= precedence(charac)) {
+            flutter[0] = stack[(*top)--];
+            flutter[1] = '\0';
+            strcat(output, flutter);
+        }
+        stack[++(*top)] = charac;
+    }
+```
