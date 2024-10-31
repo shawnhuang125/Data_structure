@@ -203,7 +203,7 @@ The formula contains the following characters:
 '3' is number
 ')' operator with precedence:3
 ```
-#### 20241031 | infix to prefix
+## 20241031 | infix to prefix
 ```
 #include<stdlib.h>
 #include<stdio.h>
