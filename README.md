@@ -7,7 +7,7 @@
 
 - 
 ## 目錄
-#### [資料結構](https://github.com/shawnhuang125/Data_structure/blob/main/data_scructure.md)
+#### [資料結構](https://github.com/shawnhuang125/Data_structure/blob/main/data_structure.md)
 #### [C_語法介紹]()
 #### [C_實作]()
 #### [Python_語法介紹]()
