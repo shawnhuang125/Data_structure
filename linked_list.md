@@ -48,8 +48,12 @@ b 的值: 20
 --------------------------------
 Process exited after 0.04731 seconds with return value 0
 ```
-- p單層指標可以用來讀取或修改另一個變數的數值(Call By Address),但是無法改變再單層指標中儲存的a變數的記憶體位址空間。
-- pp雙層指標是透過將p單層指標中儲存的a變數的記憶體位址空間又儲存一個副本來直接修改p指標變數儲存的a變數的記憶體位址,只是需要回傳更新之後的a變數的記憶體位址和數值?
+- p單層指標可以用來讀取或修改另一個變數的數值(Call By Address),但是無法改變p單層指標中儲存的a變數的記憶體位址空間。
+- 雙層指標儲存的是p單層指標本身的記憶體位址，它允許修改p單層指標的內容（即其儲存的地址）。
+- 修改後的變化已經體現在記憶體中，無需回傳更新的目標變數地址或數值。
+- 節點和一般簡單變數的差異
+- 節點可以用來動態分配簡單變數的記憶體空間。
+- 一般的簡單變數如整數或浮點數都是靜態需告的,除非使用指標去動態修改其記憶體位址。
 ## 鏈結串列製作流程
 - **Create linked list 建立鏈結串列**:初始化鏈結串列(0-1)
 ```
@@ -323,4 +327,226 @@ head -> 	10     ->     20        ->   NULL
 	--------------------------------
 	Process exited after 20.46 seconds with return value 0
    	```
+- 包含insert功能的linked list
+```
+#include<stdio.h>
+#include<stdlib.h>
+struct node {
+	//定義linked list結構 
+	int data;
+	struct node* next;
+} node;
+struct node* insertnode(struct node* head,int target,int value){
+	//找到指定的node
+	struct node* temp = head;
+	while(temp!=NULL && temp->data!=target){
+		//當節點不為空且DATA不為TARGET就更新TEMP->NEXT
+		temp = temp->next; 
+	} 
+	if(temp==NULL){
+		printf("cannot find the particular node!");
+		//返回head是因為要返回整個更新之後的鏈結串列 
+		return head;
+	}
+	//加入新節點
+	struct node* newnode = (struct node*)malloc(sizeof(struct node));
+	if (newnode == NULL) {
+        printf("Memory allocation failed!\n");
+        return head; // 如果記憶體分配失敗，返回原鏈結串列
+    }
+	//先把data加到新節點的數據欄位 
+	newnode->data = value;
+	//新節點的next指向目標節點的next 
+	newnode->next = temp->next;
+	//再目標節點的next指向新節點
+	temp->next =  newnode;
+	//返回head是因為要返回整個更新之後的鏈結串列 
+	return head;
+}
+struct node* createnode(int node_data){
+	struct node* newnode = (struct node*)malloc(sizeof(struct node));
+	if(newnode==NULL){
+		printf("Memory Allocation Failed!");
+		exit(1);
+	}
+	newnode->data = node_data;
+	newnode->next = NULL;
+	return newnode;
+}
+int addnode(struct node** head,int node_data){
+	struct node* newnode = createnode(node_data);
+	if(*head == NULL){
+	//如果加入新節點 
+	*head = newnode;
+	}else{
+		//找到最後一個節點並加入新節點
+		struct node* temp = *head;
+		while(temp->next!=NULL){
+			temp = temp->next;
+		} 
+		temp->next = newnode;
+		//*head = newnode;
+	}
 
+}
+int printlist(struct node* head){
+	struct node* temp = head;
+	printf("head   --->   ");
+	while(temp != NULL){
+		printf("%d   --->   ", temp->data); 
+		temp = temp->next; 
+	}
+	printf("NULL\n");
+}
+int main(){
+	//初始化linked list  
+	struct node* head = NULL;
+	int i;
+	while(i!=5){
+			printf("Description:\n1: Add node in the end;\n2: To see the list;\n3: Insert a node in the middle of the linked list;\n4: To delete a particular node;\n5: Exist\n");
+			printf("\n");
+			printf("please insert a num:");
+			scanf("%d",&i);
+		if(i==1){
+			//addnode
+			printf("Loading to.....Addnode,insert data:");
+			int insert_data;
+			scanf("%d",&insert_data);
+			addnode(&head,insert_data);
+		}else if(i==2){
+			//to see the list
+			printf("Loading to.....To see the list\n");
+			printf("Linked list:");
+			printlist(head);
+		}else if(i==3){
+			//Insert a node in the middle of the linked list
+			printf("Loading to.....Insertnode\n");
+			int node_target;
+			int node_insert_value;
+			printf("choose a value of node to insert:");
+			scanf("%d",&node_target);
+			printf("insert data you want:");
+			scanf("%d",&node_insert_value);
+			insertnode(head,node_target,node_insert_value);
+		}else if(i==4){
+			//To delete a particular node
+			printf("Loading to.....To delete a particular node\n");
+		}else if (i==5){
+			//Exist
+			printf("Existing....\n");
+		
+		}else{
+			printf("Insert Error\n");
+		}
+		printf("\n");
+	}
+
+
+	return 0;
+}
+```
+- 輸出
+```
+Description:
+1: Add node in the end;
+2: To see the list;
+3: Insert a node in the middle of the linked list;
+4: To delete a particular node;
+5: Exist
+
+please insert a num:1
+Loading to.....Addnode,insert data:2
+
+Description:
+1: Add node in the end;
+2: To see the list;
+3: Insert a node in the middle of the linked list;
+4: To delete a particular node;
+5: Exist
+
+please insert a num:1
+Loading to.....Addnode,insert data:5
+
+Description:
+1: Add node in the end;
+2: To see the list;
+3: Insert a node in the middle of the linked list;
+4: To delete a particular node;
+5: Exist
+
+please insert a num:1
+Loading to.....Addnode,insert data:6
+
+Description:
+1: Add node in the end;
+2: To see the list;
+3: Insert a node in the middle of the linked list;
+4: To delete a particular node;
+5: Exist
+
+please insert a num:1
+Loading to.....Addnode,insert data:7
+
+Description:
+1: Add node in the end;
+2: To see the list;
+3: Insert a node in the middle of the linked list;
+4: To delete a particular node;
+5: Exist
+
+please insert a num:1
+Loading to.....Addnode,insert data:8
+
+Description:
+1: Add node in the end;
+2: To see the list;
+3: Insert a node in the middle of the linked list;
+4: To delete a particular node;
+5: Exist
+
+please insert a num:1
+Loading to.....Addnode,insert data:9
+
+Description:
+1: Add node in the end;
+2: To see the list;
+3: Insert a node in the middle of the linked list;
+4: To delete a particular node;
+5: Exist
+
+please insert a num:2
+Loading to.....To see the list
+Linked list:head   --->   2   --->   5   --->   6   --->   7   --->   8   --->   9   --->   NULL
+
+Description:
+1: Add node in the end;
+2: To see the list;
+3: Insert a node in the middle of the linked list;
+4: To delete a particular node;
+5: Exist
+
+please insert a num:3
+Loading to.....Insertnode
+choose a value of node to insert:2
+insert data you want:3
+
+Description:
+1: Add node in the end;
+2: To see the list;
+3: Insert a node in the middle of the linked list;
+4: To delete a particular node;
+5: Exist
+
+please insert a num:2
+Loading to.....To see the list
+Linked list:head   --->   2   --->   3   --->   5   --->   6   --->   7   --->   8   --->   9   --->   NULL
+
+Description:
+1: Add node in the end;
+2: To see the list;
+3: Insert a node in the middle of the linked list;
+4: To delete a particular node;
+5: Exist
+
+please insert a num:
+```
