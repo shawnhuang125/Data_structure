@@ -550,3 +550,296 @@ Description:
 
 please insert a num:
 ```
+- 製作刪除節點的函數:
+```
+struct node* delnode(struct node** head,int ptcl_nodata){
+	//定義一個用來修改結構體的指標變數
+	struct node* current = *head;
+	//初始化一個用來儲存指定節點的前一個節點的指針列表
+	struct node* bfnode = NULL;
+	//判斷是不是空列表
+	if(current==NULL){
+		printf("The linked list is empty!Please add something!\n");
+		return *head;
+	}
+	//判斷指定節點是不是頭節點
+	if(current->data==ptcl_nodata){
+		*head = current->next;
+		free(current);
+		printf("Deleted head node containing: %d\n",ptcl_nodata);
+		return *head;
+	}
+	// 如果未找到指定節點
+    	if (current == NULL) {
+        	printf("Node containing %d not found in the list.\n", ptcl_nodata);
+        	return *head;
+	}
+	while(temp!=NULL && temp->data != ptcl_nodata){
+		bfnode = current;
+		temp = temp->next;
+	}
+	//將指定節點的前一個節點指向指定節點的後一個節點的記憶體位址
+	bfnode->next = current->next;
+	free(current);
+	printf("Successfully delete node:%d\n",ptcl_nodata);
+	return *head;
+}
+```
+- 完整程式碼:
+```
+#include<stdio.h>
+#include<stdlib.h>
+struct node {
+	//使用struct定義linked list結構 
+	int data;
+	//每個node會指向下一個記憶體空間 
+	struct node* next;
+} node;
+struct node* createnode(int node_data){
+	//為了定義新nod所以要記憶體空間
+	struct node* newnode = (struct node*)malloc(sizeof(struct node));
+	//如果沒有要到記憶體空間回傳錯誤 
+	if(newnode == NULL){
+		printf("memory allocation failed!");
+	}
+	newnode->data =  node_data;
+	newnode->next = NULL;
+	return newnode;
+}
+struct node* AddEnd(struct node** head,int node_data){
+	//進行新節點的定義與data的輸入 
+	struct node* newnode =  createnode(node_data);
+	 
+	if(*head == NULL){
+		//如果head的記憶體位址值指向為NULl就在head後面加入新節點
+		*head = newnode;
+	}else{
+		//如果head沒有指向NULl就一直遍歷到節點的指向為NULL
+		struct node* temp = *head;
+		while(temp->next != NULL){
+			//遍歷到節點的指向為NULL
+			temp = temp->next;
+		}
+		//從最後一個指向為NULL的節點後開始建置新結點 
+		temp->next = newnode;
+		
+	}	
+}
+struct node* insertnode(struct node* head,int ptcl_nodata,int insert_data){
+	//先遍歷到節點直到節點的data為ptcl_node
+	struct node* temp = head;
+	while(temp->data!=ptcl_nodata){
+		temp = temp->next;
+	}
+	if(temp==NULL){
+		//如果找不到該節點則回傳錯誤 
+		printf("Can not find the particular node!Please try again!");
+		//返回head是因為要返回整個更新之後的鏈結串列 
+		return head;
+	}
+	//在ptcl_node後加入新節點 
+	struct node* newnode = createnode(insert_data);
+	//如果沒有要到記憶體空間回傳錯誤 
+	if(newnode == NULL){
+		printf("memory allocation failed!");
+	}
+	//將資料放入新節點 
+	newnode->data = insert_data;
+	//將新節點的記憶位址指向為指定節點的記憶位址指向 
+	newnode->next = temp->next;
+	//加上後續已經更新後的linked list 
+	temp->next = newnode;
+	return head;
+	
+}
+struct node* delnode(struct node** head,int ptcl_nodata){
+	//定義一個用來修改結構體的指標變數
+	struct node* current = *head;
+	//初始化一個用來儲存指定節點的前一個節點的指針列表
+	struct node* bfnode = NULL;
+	//判斷是不是空列表
+	if(current==NULL){
+		printf("The linked list is empty!Please add something!\n");
+		return *head;
+	}
+	//判斷指定節點是不是頭節點
+	if(current->data==ptcl_nodata){
+		*head = current->next;
+		free(current);
+		printf("Deleted head node containing: %d\n",ptcl_nodata);
+		return *head;
+	}
+	// 如果未找到指定節點
+    	if (current == NULL) {
+        	printf("Node containing %d not found in the list.\n", ptcl_nodata);
+        	return *head;
+	}
+	while(current!=NULL && current->data != ptcl_nodata){
+		bfnode = current;
+		current = current->next;
+	}
+	//將指定節點的前一個節點指向指定節點的後一個節點的記憶體位址
+	bfnode->next = current->next;
+	free(current);
+	printf("Successfully delete node:%d\n",ptcl_nodata);
+	return *head;
+}
+int PrintList(struct node* head){
+	struct node* temp = head;
+	printf("Head   --->   ");
+	while(temp!=NULL){
+		//如果head記憶體位址值指向不為NULl就一直遍歷到節點的指向為NULL
+		printf("%d   --->   ",temp->data);
+		temp = temp->next;
+	}
+	printf("NULL\n");
+}
+int main(){
+	//定義head 
+	struct node* head = NULL;
+	int i;
+	while(1){
+		printf("1: CREATE NEW NODE;\n2:INSERT NEWNODE IN PARTICIPATION;\n3: TO CHECK LINKED LIST;\n4:DELETE NODE PARTICIPATELY;\n5: LEAVE\n");
+		printf("Insert num:");
+		scanf("%d",&i);
+		if(i==1){
+			//建立節點,輸入節點資料
+			printf("loading to createnode.\n"); 
+			printf("insert data to create node:");
+			int insert_data;
+			scanf("%d",&insert_data);
+			AddEnd(&head,insert_data);
+			printf("Seccesfully insert data:%d\n",insert_data);
+		}else if(i==2){
+			//插入節點,輸入節點資料
+			printf("particularilly insert new node.\n");
+			printf("To choose a particular node:");
+			int node;
+			scanf("%d",&node);
+			printf("insert data :");
+			int newnodata;
+			scanf("%d",&newnodata);
+			printf("Seccesfully insert data:%d after %d\n",newnodata,node);
+			insertnode(head,node,newnodata);   
+		}else if(i==3){
+			//查看Linked List 
+			printf("loading to check the linked list.\n"); 
+			PrintList(head);
+		}else if(i==4){
+			//刪除指定節點 
+			int nodata;
+			printf("particularilly delete node.\n"); 
+			printf("Insert data of the node you want:");
+			scanf("%d",&nodata);
+			delnode(&head,nodata);
+		}else if(i==5){
+			//跳出while迴圈
+			printf("leaving...\n"); 
+			break; 
+		}else{
+			printf("Insert ERROR!Please try again!\n");
+		}
+	}
+	
+	return 0;
+} 
+```
+- 輸出:
+```
+1: CREATE NEW NODE;
+2:INSERT NEWNODE IN PARTICIPATION;
+3: TO CHECK LINKED LIST;
+4:DELETE NODE PARTICIPATELY;
+5: LEAVE
+Insert num:1
+loading to createnode.
+insert data to create node:3
+Seccesfully insert data:3
+1: CREATE NEW NODE;
+2:INSERT NEWNODE IN PARTICIPATION;
+3: TO CHECK LINKED LIST;
+4:DELETE NODE PARTICIPATELY;
+5: LEAVE
+Insert num:1
+loading to createnode.
+insert data to create node:4
+Seccesfully insert data:4
+1: CREATE NEW NODE;
+2:INSERT NEWNODE IN PARTICIPATION;
+3: TO CHECK LINKED LIST;
+4:DELETE NODE PARTICIPATELY;
+5: LEAVE
+Insert num:1
+loading to createnode.
+insert data to create node:6
+Seccesfully insert data:6
+1: CREATE NEW NODE;
+2:INSERT NEWNODE IN PARTICIPATION;
+3: TO CHECK LINKED LIST;
+4:DELETE NODE PARTICIPATELY;
+5: LEAVE
+Insert num:1
+loading to createnode.
+insert data to create node:7
+Seccesfully insert data:7
+1: CREATE NEW NODE;
+2:INSERT NEWNODE IN PARTICIPATION;
+3: TO CHECK LINKED LIST;
+4:DELETE NODE PARTICIPATELY;
+5: LEAVE
+Insert num:1
+loading to createnode.
+insert data to create node:8
+Seccesfully insert data:8
+1: CREATE NEW NODE;
+2:INSERT NEWNODE IN PARTICIPATION;
+3: TO CHECK LINKED LIST;
+4:DELETE NODE PARTICIPATELY;
+5: LEAVE
+Insert num:3
+loading to check the linked list.
+Head   --->   3   --->   4   --->   6   --->   7   --->   8   --->   NULL
+1: CREATE NEW NODE;
+2:INSERT NEWNODE IN PARTICIPATION;
+3: TO CHECK LINKED LIST;
+4:DELETE NODE PARTICIPATELY;
+5: LEAVE
+Insert num:2
+particularilly insert new node.
+To choose a particular node:4
+insert data :5
+Seccesfully insert data:5 after 4
+1: CREATE NEW NODE;
+2:INSERT NEWNODE IN PARTICIPATION;
+3: TO CHECK LINKED LIST;
+4:DELETE NODE PARTICIPATELY;
+5: LEAVE
+Insert num:3
+loading to check the linked list.
+Head   --->   3   --->   4   --->   5   --->   6   --->   7   --->   8   --->   NULL
+1: CREATE NEW NODE;
+2:INSERT NEWNODE IN PARTICIPATION;
+3: TO CHECK LINKED LIST;
+4:DELETE NODE PARTICIPATELY;
+5: LEAVE
+Insert num:4
+particularilly delete node.
+Insert data of the node you want:8
+Successfully delete node:8
+1: CREATE NEW NODE;
+2:INSERT NEWNODE IN PARTICIPATION;
+3: TO CHECK LINKED LIST;
+4:DELETE NODE PARTICIPATELY;
+5: LEAVE
+Insert num:3
+loading to check the linked list.
+Head   --->   3   --->   4   --->   5   --->   6   --->   7   --->   NULL
+1: CREATE NEW NODE;
+2:INSERT NEWNODE IN PARTICIPATION;
+3: TO CHECK LINKED LIST;
+4:DELETE NODE PARTICIPATELY;
+5: LEAVE
+Insert num:5
+leaving...
+
+```
