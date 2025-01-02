@@ -582,7 +582,7 @@ struct node* delnode(struct node** head,int ptcl_nodata){
 	return *head;
 }
 ```
-- 完整程式碼:
+- 單向鏈結串列完整程式碼:
 ```
 #include<stdio.h>
 #include<stdlib.h>
