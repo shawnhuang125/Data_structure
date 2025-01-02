@@ -1,4 +1,4 @@
-# 動態配置與Linked List鏈結串列
+# Dynamic Allocate動態配置與Linked List鏈結串列
 > 特性:動態配置Dynamic Allocate
 
 > 記憶體空間是片段的,所以需要使用指標來儲存每個變數的記憶體位置
