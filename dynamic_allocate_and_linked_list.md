@@ -5,7 +5,7 @@
 
 > 陣列就算是靜態配置,因為要先宣告記憶體空間。
 
-> 針對鏈結串列可以做四個動作:create-->add-->insert-->delete
+> 針對鏈結串列可以做五個動作:create-->add-->insert-->delete-->show
 
 ## 指標介紹
 - **甚麼是指標?甚麼是雙重指標?**
@@ -57,34 +57,37 @@ b 的值: 20
 
    - 使用struct定義結構方便後續使用結構體(單向鏈結串列)
  
-	```
-	struct node {
-		int data;
-		struct node* next;
-	};
-	```
+   ```
+   struct node {
+	int data;
+	struct node* next;
+   };
+   ```
   
    - 主程式初始化head(單向鏈結串列)
      
-	```
-	int main(){
-		//初始化linked list的head
- 		//只要是使用struct定義新的結構運算變數就一定要加上struct node*
-		struct node* head = NULL;
- 		//這邊是return NULL回傳空的數值
-		return 0;
+   ```
+   int main(){
+	//初始化linked list的head
+ 	//只要是使用struct定義新的結構運算變數就一定要加上struct node*
+	struct node* head = NULL;
+ 	//這邊是return NULL回傳空的數值
+	return 0;
  
-	}
-	```
-	- 為甚麼要初始化head?
- 	> 因為如果沒有head,linked list將無法借助任何指標當作起點來輸入數據,沒有這個將會顯示錯誤
-	```
-	[ERROR] 'head' was not declared in this scope
-	```
+   }
+   ```
+ 
+   - 為甚麼要初始化head?
+   > 因為如果沒有head,linked list將無法借助任何指標當作起點來輸入數據,沒有這個將會顯示錯誤
+  
+   ```
+   [ERROR] 'head' was not declared in this scope
+   ```
+ 
    - create node建立節點的函數(單向鏈結串列):
 
-	```
- 	struct node* createnode(int node_data){
+   ```
+   struct node* createnode(int node_data){
  	struct node* newnode = (struct node*)malloc(sizeof(struct node));
  	if(newnode==NULL){
  		printf("memory allocation failed!");
@@ -93,38 +96,39 @@ b 的值: 20
  	newnode->next = NULL;
  	//這邊如果是return 0就會回傳空的數值,所以一定要return newnode這樣新的節點位址才會更新
  	return newnode;
-	}
-	```
-  	> Tips:只要會用到結構體的變數一定要用struct
-  	> Tips:一定要想清楚是用原本的指標還是搜尋後已經更新的指標
-	> 如果head指向的下一個位址為NULL則新增結點到head後面,反之就一直往下搜尋node值到最後一個node的指向位址為NULL
- 	> 之後其他含是需要建立節點就可直接呼叫
-
+   }
+   ```
+ 
+   > Tips:只要會用到結構體的變數一定要用struct
+   > Tips:一定要想清楚是用原本的指標還是搜尋後已經更新的指標
+   > 如果head指向的下一個位址為NULL則新增結點到head後面,反之就一直往下搜尋node值到最後一個node的指向位址為NULL
+   > 之後其他含是需要建立節點就可直接呼叫
+	
    - Add node新增節點的函式(單向鏈結串列):
 
-	```
- 	int AddEnd(struct node** head,int node_data){
-		//node**是指標的指標,第一層指標是node(每個節點)第二層指標是node->next(結點內部的next指標)
-		struct node* newnode = createnode(node_data);
-		if(*head==NULL){
-			//如果節點為空就在head後新增節點
-			*head = newnode;
-		}else{
- 			//邏輯是當節點指向下一個地位址不為空則印出該節點,直到節點下一個地位址為空
-			struct node* temp = *head;
-			while(temp->next!=NULL){
-				temp = temp->next;
-			}
-			*head = newnode;	
+   ```
+   int AddEnd(struct node** head,int node_data){
+	//node**是指標的指標,第一層指標是node(每個節點)第二層指標是node->next(結點內部的next指標)
+	struct node* newnode = createnode(node_data);
+	if(*head==NULL){
+		//如果節點為空就在head後新增節點
+		*head = newnode;
+	}else{
+ 		//邏輯是當節點指向下一個地位址不為空則印出該節點,直到節點下一個地位址為空
+		struct node* temp = *head;
+		while(temp->next!=NULL){
+			temp = temp->next;
 		}
-	
+		*head = newnode;	
 	}
+	
+   }
  	
- 	```
+   ```
   
   - Print node列印list的函式(單向鏈結串列):
 
-	```
+  ```
 	int PrintList(struct node* head){
 		printf("head   --->   ");
 		struct node* temp = head;
@@ -136,11 +140,11 @@ b 的值: 20
  		printf("NULL\n");
 	
 	}
-	```
+  ```
   
   - insert node插入節點的函數(單向鏈結串列):
    
-     ```
+  ```
      struct node* insertnode(struct node* head,int target,int value){
 	//找到指定的node
 	struct node* temp = head;
@@ -168,11 +172,10 @@ b 的值: 20
 	//返回head是因為要返回整個更新之後的鏈結串列 
 	return head;
 	}
-
-    ```
+   ```
  
    - delete node刪除節點的函數(單向鏈結串列):
-	```
+   ```
 	struct node* delnode(struct node** head,int ptcl_nodata){
 		//定義一個用來修改結構體的指標變數
 		struct node* current = *head;
@@ -205,19 +208,19 @@ b 的值: 20
 		printf("Successfully delete node:%d\n",ptcl_nodata);
 		return *head;
 	}
-	```
+   ```
 
-- 單向鏈結串列完整程式碼:
-```
-#include<stdio.h>
-#include<stdlib.h>
-struct node {
+   - 單向鏈結串列完整程式碼:
+   ```
+   #include<stdio.h>
+   #include<stdlib.h>
+   struct node {
 	//使用struct定義linked list結構 
 	int data;
 	//每個node會指向下一個記憶體空間 
 	struct node* next;
-} node;
-struct node* createnode(int node_data){
+   } node;
+   struct node* createnode(int node_data){
 	//為了定義新nod所以要記憶體空間
 	struct node* newnode = (struct node*)malloc(sizeof(struct node));
 	//如果沒有要到記憶體空間回傳錯誤 
@@ -227,8 +230,8 @@ struct node* createnode(int node_data){
 	newnode->data =  node_data;
 	newnode->next = NULL;
 	return newnode;
-}
-struct node* AddEnd(struct node** head,int node_data){
+   }
+   struct node* AddEnd(struct node** head,int node_data){
 	//進行新節點的定義與data的輸入 
 	struct node* newnode =  createnode(node_data);
 	 
@@ -246,8 +249,8 @@ struct node* AddEnd(struct node** head,int node_data){
 		temp->next = newnode;
 		
 	}	
-}
-struct node* insertnode(struct node* head,int ptcl_nodata,int insert_data){
+   }
+   struct node* insertnode(struct node* head,int ptcl_nodata,int insert_data){
 	//先遍歷到節點直到節點的data為ptcl_node
 	struct node* temp = head;
 	while(temp->data!=ptcl_nodata){
@@ -273,8 +276,8 @@ struct node* insertnode(struct node* head,int ptcl_nodata,int insert_data){
 	temp->next = newnode;
 	return head;
 	
-}
-struct node* delnode(struct node** head,int ptcl_nodata){
+   }
+   struct node* delnode(struct node** head,int ptcl_nodata){
 	//定義一個用來修改結構體的指標變數
 	struct node* current = *head;
 	//初始化一個用來儲存指定節點的前一個節點的指針列表
@@ -305,8 +308,8 @@ struct node* delnode(struct node** head,int ptcl_nodata){
 	free(current);
 	printf("Successfully delete node:%d\n",ptcl_nodata);
 	return *head;
-}
-int PrintList(struct node* head){
+   }
+   int PrintList(struct node* head){
 	struct node* temp = head;
 	printf("Head   --->   ");
 	while(temp!=NULL){
@@ -315,8 +318,8 @@ int PrintList(struct node* head){
 		temp = temp->next;
 	}
 	printf("NULL\n");
-}
-int main(){
+   }
+   int main(){
 	//定義head 
 	struct node* head = NULL;
 	int i;
@@ -364,107 +367,107 @@ int main(){
 	}
 	
 	return 0;
-} 
-```
-- 輸出:
-```
-1: CREATE NEW NODE;
-2:INSERT NEWNODE IN PARTICIPATION;
-3: TO CHECK LINKED LIST;
-4:DELETE NODE PARTICIPATELY;
-5: LEAVE
-Insert num:1
-loading to createnode.
-insert data to create node:3
-Seccesfully insert data:3
-1: CREATE NEW NODE;
-2:INSERT NEWNODE IN PARTICIPATION;
-3: TO CHECK LINKED LIST;
-4:DELETE NODE PARTICIPATELY;
-5: LEAVE
-Insert num:1
-loading to createnode.
-insert data to create node:4
-Seccesfully insert data:4
-1: CREATE NEW NODE;
-2:INSERT NEWNODE IN PARTICIPATION;
-3: TO CHECK LINKED LIST;
-4:DELETE NODE PARTICIPATELY;
-5: LEAVE
-Insert num:1
-loading to createnode.
-insert data to create node:6
-Seccesfully insert data:6
-1: CREATE NEW NODE;
-2:INSERT NEWNODE IN PARTICIPATION;
-3: TO CHECK LINKED LIST;
-4:DELETE NODE PARTICIPATELY;
-5: LEAVE
-Insert num:1
-loading to createnode.
-insert data to create node:7
-Seccesfully insert data:7
-1: CREATE NEW NODE;
-2:INSERT NEWNODE IN PARTICIPATION;
-3: TO CHECK LINKED LIST;
-4:DELETE NODE PARTICIPATELY;
-5: LEAVE
-Insert num:1
-loading to createnode.
-insert data to create node:8
-Seccesfully insert data:8
-1: CREATE NEW NODE;
-2:INSERT NEWNODE IN PARTICIPATION;
-3: TO CHECK LINKED LIST;
-4:DELETE NODE PARTICIPATELY;
-5: LEAVE
-Insert num:3
-loading to check the linked list.
-Head   --->   3   --->   4   --->   6   --->   7   --->   8   --->   NULL
-1: CREATE NEW NODE;
-2:INSERT NEWNODE IN PARTICIPATION;
-3: TO CHECK LINKED LIST;
-4:DELETE NODE PARTICIPATELY;
-5: LEAVE
-Insert num:2
-particularilly insert new node.
-To choose a particular node:4
-insert data :5
-Seccesfully insert data:5 after 4
-1: CREATE NEW NODE;
-2:INSERT NEWNODE IN PARTICIPATION;
-3: TO CHECK LINKED LIST;
-4:DELETE NODE PARTICIPATELY;
-5: LEAVE
-Insert num:3
-loading to check the linked list.
-Head   --->   3   --->   4   --->   5   --->   6   --->   7   --->   8   --->   NULL
-1: CREATE NEW NODE;
-2:INSERT NEWNODE IN PARTICIPATION;
-3: TO CHECK LINKED LIST;
-4:DELETE NODE PARTICIPATELY;
-5: LEAVE
-Insert num:4
-particularilly delete node.
-Insert data of the node you want:8
-Successfully delete node:8
-1: CREATE NEW NODE;
-2:INSERT NEWNODE IN PARTICIPATION;
-3: TO CHECK LINKED LIST;
-4:DELETE NODE PARTICIPATELY;
-5: LEAVE
-Insert num:3
-loading to check the linked list.
-Head   --->   3   --->   4   --->   5   --->   6   --->   7   --->   NULL
-1: CREATE NEW NODE;
-2:INSERT NEWNODE IN PARTICIPATION;
-3: TO CHECK LINKED LIST;
-4:DELETE NODE PARTICIPATELY;
-5: LEAVE
-Insert num:5
-leaving...
+   } 
+   ```
+   - 輸出:
+   ```
+   1: CREATE NEW NODE;
+   2:INSERT NEWNODE IN PARTICIPATION;
+   3: TO CHECK LINKED LIST;
+   4:DELETE NODE PARTICIPATELY;
+   5: LEAVE
+   Insert num:1
+   loading to createnode.
+   insert data to create node:3
+   Seccesfully insert data:3
+   1: CREATE NEW NODE;
+   2:INSERT NEWNODE IN PARTICIPATION;
+   3: TO CHECK LINKED LIST;
+   4:DELETE NODE PARTICIPATELY;
+   5: LEAVE
+   Insert num:1
+   loading to createnode.
+   insert data to create node:4
+   Seccesfully insert data:4
+   1: CREATE NEW NODE;
+   2:INSERT NEWNODE IN PARTICIPATION;
+   3: TO CHECK LINKED LIST;
+   4:DELETE NODE PARTICIPATELY;
+   5: LEAVE
+   Insert num:1
+   loading to createnode.
+   insert data to create node:6
+   Seccesfully insert data:6
+   1: CREATE NEW NODE;
+   2:INSERT NEWNODE IN PARTICIPATION;
+   3: TO CHECK LINKED LIST;
+   4:DELETE NODE PARTICIPATELY;
+   5: LEAVE
+   Insert num:1
+   loading to createnode.
+   insert data to create node:7
+   Successfully insert data:7
+   1: CREATE NEW NODE;
+   2:INSERT NEWNODE IN PARTICIPATION;
+   3: TO CHECK LINKED LIST;
+   4:DELETE NODE PARTICIPATELY;
+   5: LEAVE
+   Insert num:1
+   loading to createnode.
+   insert data to create node:8
+   Successfully insert data:8
+   1: CREATE NEW NODE;
+   2:INSERT NEWNODE IN PARTICIPATION;
+   3: TO CHECK LINKED LIST;
+   4:DELETE NODE PARTICIPATELY;
+   5: LEAVE
+   Insert num:3
+   loading to check the linked list.
+   Head   --->   3   --->   4   --->   6   --->   7   --->   8   --->   NULL
+   1: CREATE NEW NODE;
+   2:INSERT NEWNODE IN PARTICIPATION;
+   3: TO CHECK LINKED LIST;
+   4:DELETE NODE PARTICIPATELY;
+   5: LEAVE
+   Insert num:2
+   particularilly insert new node.
+   To choose a particular node:4
+   insert data :5
+   Seccesfully insert data:5 after 4
+   1: CREATE NEW NODE;
+   2:INSERT NEWNODE IN PARTICIPATION;
+   3: TO CHECK LINKED LIST;
+   4:DELETE NODE PARTICIPATELY;
+   5: LEAVE
+   Insert num:3
+   loading to check the linked list.
+   Head   --->   3   --->   4   --->   5   --->   6   --->   7   --->   8   --->   NULL
+   1: CREATE NEW NODE;
+   2:INSERT NEWNODE IN PARTICIPATION;
+   3: TO CHECK LINKED LIST;
+   4:DELETE NODE PARTICIPATELY;
+   5: LEAVE
+   Insert num:4
+   particularilly delete node.
+   Insert data of the node you want:8
+   Successfully delete node:8
+   1: CREATE NEW NODE;
+   2:INSERT NEWNODE IN PARTICIPATION;
+   3: TO CHECK LINKED LIST;
+   4:DELETE NODE PARTICIPATELY;
+   5: LEAVE
+   Insert num:3
+   loading to check the linked list.
+   Head   --->   3   --->   4   --->   5   --->   6   --->   7   --->   NULL
+   1: CREATE NEW NODE;
+   2:INSERT NEWNODE IN PARTICIPATION;
+   3: TO CHECK LINKED LIST;
+   4:DELETE NODE PARTICIPATELY;
+   5: LEAVE
+   Insert num:5
+   leaving...
 
-```
+   ```
 - 總結:
 - 如果要加在所有節點為value後面:確認是否為空串列,開始遍歷節點直到節點末端,如果節點值為target則加入新節點,把temp->next的位址值丟給新節點的next,把temp->next指向給新節點,然後把newnode更新到temp,count加一紀錄已增加一筆資料,這樣下次會從新節點的下一個位址繼續遍歷
 ### 單向鏈結串列習題
@@ -495,7 +498,104 @@ leaving...
 - (3)刪除鏈結串列最大值後再顯示鏈結串列所有節點的值
 - (4)新增一任意值在鏈結串列最大值後再顯示鏈結串列所有節點的值
 - (5)新增一任意值在鏈結串列最大值前再顯示鏈結串列所有節點的值
-### 雙向鏈結串列習題
-
+## 雙向鏈結串列
+   - 結構體定義:
+   ```
+   struct node {
+   	int data;
+   	struct node* next;
+   	struct node* prev;
+   } node;
+   ```
+   - create node建立節點的函數(雙向鏈結串列):
+   ```
+   struct node* create(int value){
+   	struct node* newnode = (struct node*)malloc(sizeof(struct node);
+   	if(newnode==NULL){	printf("memory allocation failed!};
+   	newnode->data = value;
+   	newnode->prev = NULL;
+   	newnode->next = NULL;
+   	return newnode;
+   }
+   ```
+   - Add node新增節點的函式(雙向鏈結串列):
+   ```
+   struct node* add(struct node** head,int value){
+   	struct node* newnode = create(value);
+   	if(*head==NULL){
+		// if the node is the head node
+		*head = newnode;
+   	}else{
+		struct node* temp = *head;
+		while(temp->next!=NULL){
+			temp = temp->next;
+		}
+		temp->next = newnode;
+		newnode->prev = temp;
+	}
+	return *head;
+   }
+   ```
+   - insert node插入節點的函數(雙向鏈結串列):
+   ```
+   struct node* insert_by_value(struct node** head, int number, int value){
+   	struct node* temp = *head;
+    	if(*head==NULL){	printf("the linked list is empty!");}
+	if(number==1){
+		// if the node is the head node
+		struct node* newnode = createnode(value);
+		newnode->next = *head;
+		(*head)->prev = newnode;
+		(*head) = newnode;
+		return *head;
+	}
+	int count=1;
+	while(temp!=NULL && count < target-1){
+		temp= temp->next;
+		count++;
+   	}
+	
+ 	struct node* newnode = createnode(value);
+	temp->next = newnode;
+	newnode->next = temp->next;
+	temp->next->prev = newnode;
+	newnode->prev = temp;
+	return *head;
+   }
+   ```
+   - delete node刪除節點的函數(雙向鏈結串列):
+   ```
+   struct node* del(struct node** head, int value){
+   	struct node* temp = *head;
+	struct node* pri = NULL;
+	while(temp!=NULL && temp->data!=value){
+		pri = temp;
+		temp = temp->next;
+   	}
+	if(temp->next==NULL){
+		printf("cannot find the node!");
+	}
+	if(temp== *head){
+		if(temp->next!=NULL){
+			temp->next->pri = NULL;
+		}
+		*head = temp->next;
+		free(temp);
+	}else{
+		pri->next = temp->next;
+		temp->next->prev = pri;
+		free(temp);
+	}
+	return *head;
+   }
+   ```
+	
+### 雙向鏈結練習題
+- 建立一雙向鏈結串列, 輸入十個任意值, 
+(1)顯示鏈結串列所有節點的值及其總和(已做)
+(2)顯示鏈結串列最大值及其節點位置與最小值及其節點位置
+(3)刪除鏈結串列最大值後再顯示鏈結串列所有節點的值
+(4)新增一任意值在鏈結串列最大值後再顯示鏈結串列所有節點的值
+(5)新增一任意值在鏈結串列最大值前再顯示鏈結串列所有節點的值
 
 
