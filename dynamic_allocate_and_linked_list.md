@@ -589,7 +589,184 @@ b 的值: 20
 	return *head;
    }
    ```
+   - 找最大值或最小值的函式
+   ```
+   int show_max(struct node* head){
+	struct node* temp = head;
+	int count=1,position=1,max = temp->data;
+	while(temp!=NULL){
+		if(temp->data > max){
+			max = temp->data;
+			count = position;
+		}
+		temp = temp->next;
+		position++;
+	}
+ 	printf("the position of %d is:%d\n",max,count);
+   }
+   ```
+   - 完整程式碼:
+   ```
+   #include<stdio.h>
+#include<stdlib.h>
+#include <string.h>
+struct node {
+	int data;
+	struct node* prev;
+	struct node* next;
+}; 
+struct node* createnode(int node_data){
+	struct node* newnode = (struct node*)malloc(sizeof(struct node));
+	if(newnode==NULL){	printf("memory allocate error!");}
+	newnode->data = node_data;
+	newnode->next = NULL;
+	newnode->prev = NULL;
+	return newnode;
+}
+struct node* add(struct node** head, int node_data){
+	struct node* newnode = createnode(node_data);
+	if(*head == NULL){
+		*head = newnode;
+		return *head;
+	}
+	struct node* temp = *head;
+	while(temp->next!=NULL){
+		temp = temp->next;
+	}
+	temp->next = newnode;
+	newnode->prev = temp;
+	return *head;
+}
+struct node* insert(struct node** head, int number, int value){
 	
+	if(*head==NULL){
+		printf("the linked list is empty!");
+	}
+	
+	if(number == 1){
+		struct node* newnode = createnode(value);
+		newnode->next = *head;
+		(*head)->prev = newnode;
+		*head = newnode;
+		return *head;
+	}
+	struct node* temp = *head;
+	int count=1;
+	while(temp!=NULL && count < number-1){
+		temp = temp->next;
+		count++;
+	}
+	struct node* newnode = createnode(value);
+	newnode->next = temp->next;
+	temp->next = newnode;
+	newnode->prev = temp;
+	return *head;
+}
+struct node* del(struct node** head, int value){
+	if(*head==NULL){
+		printf("the list is enpty!");
+	}
+	struct node* pri = NULL;
+	struct node* temp = *head;
+	while(temp!=NULL && temp->data!=value){
+		pri = temp;
+		temp = temp->next;
+	}
+	if(temp->next==NULL){
+		printf("cannot find the node!");
+	}
+	if(temp==*head){
+        //head node situation
+        if(temp->next != NULL){
+			temp->next->prev = NULL;
+		}
+		*head = temp->next;
+	}else{
+		pri->next = temp->next;
+		temp->next->prev = temp->prev;
+	}
+    free(temp);
+	return *head;
+	
+}
+int show_max(struct node* head){
+    struct node* temp = head;
+    int max=temp->data;
+    int count=1,temp_count=1;
+    while(temp!=NULL){
+        if(temp->data > max){
+            max = temp->data;
+            count = temp_count;
+        }
+        temp = temp->next;
+        temp_count++;
+    }
+    printf("position of %d is:%d\n",max,count);
+}
+int show(struct node* head){
+	struct node* temp = head;
+	while(temp!=NULL){
+		printf("%d --> ",temp->data);
+		temp = temp->next;
+	}
+	printf("NULL\n");
+}
+int total(struct node* head){
+	struct node* temp = head;
+	int total=0;
+	while(temp!=NULL){
+		total = total + temp->data;
+		temp = temp->next;
+	}
+	printf("total:%d\n",total);
+	return 0;
+}
+int main(){
+	int i=0;
+	struct node* head = NULL;
+	while(i!=7){
+		printf("1:add\n2:show\n3:delete\n4:total\n5:insert\n6:position of maximum\n7:exit\n");
+		printf("insert i:");
+		scanf("%d",&i);
+		if(i==1){
+			//add
+			int value;
+			printf("insert value:");
+			scanf("%d",&value);
+			add(&head,value);
+		}else if(i==2){
+			//show
+			show(head);
+		}else if(i==3){
+			//del
+			int value;
+			printf("insert value:");
+			scanf("%d",&value);
+			del(&head,value);
+		}else if(i==4){
+			//total
+			total(head);
+		}else if(i==5){
+			//insert
+			int value,number;
+			printf("insert number:");
+			scanf("%d",&number);
+			printf("insert value:");
+			scanf("%d",&value);
+			insert(&head,number,value);
+		}else if(i==6){
+			//maximum
+            show_max(head);
+		}else if(i==7){
+			break;
+		}else{
+			printf("insert error!");
+			break;
+		}
+	}
+	return 0;
+}
+   ```
 ### 雙向鏈結練習題
 - 建立一雙向鏈結串列, 輸入十個任意值, 
 - (1)顯示鏈結串列所有節點的值及其總和(已做)
