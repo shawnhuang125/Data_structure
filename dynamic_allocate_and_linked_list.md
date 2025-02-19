@@ -21,7 +21,7 @@
    struct node {
 	//宣告節點的儲存數據欄位
 	int data;
-	//宣告鏈結列表,也就是指標
+	//宣告鏈結列表,也就是指標變數
 	struct node* next;
    };
    ```
