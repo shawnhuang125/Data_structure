@@ -1,6 +1,5 @@
 # 魔術方陣(使用C語言)
 - **題目描述**:宣告三個陣列並分別儲存這三個矩陣的值並印出。已知三個矩陣 A4X3 ,B3X4 ,C4X4 其中C4X4  = A4X3 × B3X4 , 且 aij = i+j, bij = i×j, 
-- 要求：
 - 輸出：印出三個矩陣的值
 ```
 #include<stdlib.h>
@@ -61,8 +60,7 @@ int main(){
 - ![image](https://github.com/user-attachments/assets/abc83578-7dbf-480e-af5e-09d966335ec2)
 
 ## 3*3魔術矩陣
-- 描述：
-- 請使用C語言宣告一陣列 int A[3][3], 並自動填入3×3魔術方陣的值後印出
+- **描述**：請使用C語言宣告一陣列 int A[3][3], 並自動填入3×3魔術方陣的值後印出
 ```
 #include<stdlib.h>
 #include<stdio.h>
@@ -104,8 +102,7 @@ int main(){
 
 
 ## 9*9魔術矩陣
-- 描述：
-- 請使用C語言宣告一陣列 int A[9][9], 並自動填入3×3魔術方陣的值後印出
+- **描述**：請使用C語言宣告一陣列 int A[9][9], 並自動填入3×3魔術方陣的值後印出
 ```
 #include<stdlib.h>
 #include<stdio.h>
